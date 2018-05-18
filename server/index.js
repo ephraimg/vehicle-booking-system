@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 // catch-all route to deal with direct client-side urls
 app.get('/*', function(req, res) {
-  res.send({'message': 'Hello world'});
+  res.redirect('/');
 })
 
 app.listen(process.env.PORT, () => {

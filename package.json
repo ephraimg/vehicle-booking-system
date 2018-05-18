@@ -2,7 +2,7 @@
   "name": "vehicle-booking-system",
   "version": "1.0.0",
   "description": " A tool for managing bookings for a fleet of vehicles",
-  "main": "./server/index.js",
+  "main": "index.html",
   "scripts": {
     "build": "webpack -p",
     "dev": "webpack-dev-server",
@@ -19,15 +19,16 @@
     "body-parser": "^1.18.3",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
-    "node": "^10.0.0",
     "react": "^16.3.2",
-    "react-router": "^4.2.0"
+    "react-dom": "^16.3.2",
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.11",
     "html-webpack-plugin": "^3.2.0",
     "style-loader": "^0.21.0",
     "webpack": "^4.8.3",
