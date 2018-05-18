@@ -1,0 +1,25 @@
+{
+  "name": "vehicle-booking-system",
+  "version": "1.0.0",
+  "description": " A tool for managing bookings for a fleet of vehicles",
+  "main": "./server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ephraimg/vehicle-booking-system.git"
+  },
+  "author": "Ephraim Glick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ephraimg/vehicle-booking-system/issues"
+  },
+  "homepage": "https://github.com/ephraimg/vehicle-booking-system#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "node": "^10.0.0",
+    "react": "^16.3.2",
+    "react-router": "^4.2.0"
+  }
+}
