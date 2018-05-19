@@ -2,7 +2,7 @@
   "name": "vehicle-booking-system",
   "version": "1.0.0",
   "description": " A tool for managing bookings for a fleet of vehicles",
-  "main": "index.html",
+  "main": "./server/index.js",
   "scripts": {
     "build": "webpack -p",
     "dev": "webpack-dev-server",
