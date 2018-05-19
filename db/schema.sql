@@ -1,7 +1,7 @@
 CREATE TABLE "job" (
 "id"  SERIAL,
 "customer" VARCHAR(200) NOT NULL,
-"time_range" INTERVAL NOT NULL,
+"during" TSTZRANGE NOT NULL,
 "id_vehicle" INTEGER,
 PRIMARY KEY ("id")
 );
