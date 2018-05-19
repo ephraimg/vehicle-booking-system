@@ -7,4 +7,10 @@ const createVehicle = (name, start, stop) =>
         values: [name, start, stop]
     });
 
-module.exports = createVehicle;
+const getVehicles = () =>
+    client.query('SELECT * FROM vehicle')
+
+module.exports = {
+    createVehicle,
+    getVehicles
+};
