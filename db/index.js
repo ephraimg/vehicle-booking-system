@@ -2,17 +2,27 @@
 require('dotenv').config();
 const { Pool, Client } = require('pg');
 
-const connectionString = process.env.ENV === 'development'
+let client;
+
+const conn = process.env.ENV === 'development'
     ? process.env.PGCONNDEV
     : process.env.PGCONNPROD
 
-const client = new Client({
-  connectionString: connectionString,
-})
-client.connect()
+const connectDB = () => {
+    if (!client) {
+        client = new Client({ connectionString: conn });
+        client.connect()
+        // Test connection
+        client.query('SELECT NOW()', (err, res) => {
+            if (err) { 
+                console.log('\nError connecting to DB: \n', err); 
+            } else {
+                console.log('\nConnected to DB\n');
+            }
+        });
+    }
+    return client;
+};
 
-// Test connection
-client.query('SELECT NOW()', (err, res) => {
-  console.log(err, res)
-  client.end()
-})
+
+module.exports = connectDB; 
