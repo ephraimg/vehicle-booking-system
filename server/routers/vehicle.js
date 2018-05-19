@@ -14,9 +14,7 @@ router.route('/')
     .post(function (req, res, next) {
         const { name, start, stop } = req.body;
         createVehicle(name, start, stop)
-            .then(result => {
-                res.send(result);
-            })
+            .then(result => res.send(result))
             .catch(err => res.send(err))
     });
 

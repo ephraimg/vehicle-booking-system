@@ -1,0 +1,9 @@
+label {
+    display: block;
+}
+
+button {
+    display: block;
+    border-radius: 5px;
+    border: 1px solid black;
+}

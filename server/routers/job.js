@@ -1,15 +1,18 @@
 
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
+const { createJob } = require('../../db/job.js');
 
 router.route('/')
-    .get(function (req, res, next) {
-        res.send('this is the jobs api');
-        next();
-    })
-    .post(function (req, res) {
-        res.send(req.body);
-        next();
+    .post(function (req, res, next) {
+        const { customer, date, start, stop } = req.body;
+        if (!customer || !start || !stop) {
+            res.send(new Error('Request must include customer, date, start, and stop'));
+        } else {
+            createJob(customer, start, stop)
+                .then(result => res.send(result))
+                .catch(err => res.send(err));
+        }
     });
 
 module.exports = router
