@@ -8,7 +8,8 @@ const createVehicle = (name, start, stop) =>
     });
 
 const getVehicles = () =>
-    client.query('SELECT * FROM vehicle')
+    client.query('SELECT vehicle.id as vehicle_id, vehicle.name as vehicle_name, ' +
+        'job.customer, job.during FROM vehicle, job;');
 
 module.exports = {
     createVehicle,
