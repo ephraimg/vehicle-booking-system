@@ -8,6 +8,13 @@ const JobCreate = props => (
         <h1>Create a new job</h1>
         <form>
             <div>
+                <label for="customer">Enter customer name:</label>
+                <input name="name" value={props.customer} 
+                    placeholder="Anonymous customer"
+                    onChange={props.handleCustomerChange}>
+                </input>
+            </div>
+            <div>
                 <label for="date">Select a date:</label>
                 <DatePicker name="date"
                     selected={props.date}

@@ -8,7 +8,7 @@ class VehicleCreate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'Anonymous vehicle',
+            name: '',
             start: '08:00',
             stop: '17:00',
             vehicleWaiting: false,
@@ -22,15 +22,12 @@ class VehicleCreate extends React.Component {
         this.createVehicle = this.createVehicle.bind(this);
     }
     handleNameChange(e) {
-        console.log('new name: ', e.target.value);
         this.setState({ name: e.target.value });
     }
     handleStartChange(e) {
-        console.log('new start: ', e.target.value);
         this.setState({ start: e.target.value });
     }
     handleStopChange(e) {
-        console.log('new stop: ', e.target.value);
         this.setState({ stop: e.target.value });
     }
     clearVehicleStatus() {
@@ -42,7 +39,11 @@ class VehicleCreate extends React.Component {
     }
     createVehicle(e) {
         this.setState({ vehicleWaiting: true });
-        const config = { };
+        const config = {
+            name: this.state.name || 'Anonymous vehicle',
+            start: this.state.start,
+            stop: this.state.stop
+        };
         axios.post('/vehicles', config)
             .then(res => this.setState({ vehicleWaiting: false, vehicleSuccess: true }))
             .catch(err => this.setState({ vehicleWaiting: false, vehicleFailure: true }))

@@ -16,16 +16,20 @@ const VehicleCreate = props => (
             <div>
                 <label for="start">Select its daily starting time:</label>
                 <select name="start" value={props.start} onChange={props.handleStartChange}>
-                    { Array(24).fill(0).map((el, idx) =>
-                        <option value={idx}>{('0' + idx).slice(-2) + ':00'}</option>)
+                    { Array(24).fill(0).map((el, idx) => {
+                            const start = ('0' + idx).slice(-2) + ':00';
+                            return <option value={start}>{start}</option>;
+                        })
                     }
                 </select>
             </div>
             <div>
                 <label for="stop">Select its daily stopping time:</label>
                 <select name="stop" value={props.stop} onChange={props.handleStopChange}>
-                    { Array(24).fill(0).map((el, idx) => 
-                        <option value={idx}>{('0' + idx).slice(-2) + ':00'}</option>)
+                    { Array(24).fill(0).map((el, idx) => {
+                            const stop = ('0' + idx).slice(-2) + ':00';
+                            return <option value={stop}>{stop}</option>;
+                        })
                     }
                 </select>
             </div>

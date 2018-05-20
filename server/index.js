@@ -11,8 +11,8 @@ let app = express();
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.json());
 
-app.use('/job', job);
-app.use('/vehicle', vehicle);
+app.use('/jobs', job);
+app.use('/vehicles', vehicle);
 
 // catch-all route to deal with direct client-side urls
 app.get('/*', function(req, res) {
