@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { StatusMessage } from './StatusMessage';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -9,9 +10,9 @@ const JobCreate = props => (
         <form>
             <div>
                 <label for="customer">Enter customer name:</label>
-                <input name="name" value={props.customer} 
-                    placeholder="Anonymous customer"
-                    onChange={props.handleCustomerChange}>
+                <input name="customer" value={props.customer} 
+                    placeholder="Name"
+                    onChange={props.handleFormChange}>
                 </input>
             </div>
             <div>
@@ -22,8 +23,8 @@ const JobCreate = props => (
                 />
             </div>
             <div>
-                <label for="start">Select a start time:</label>
-                <select name="start" selected={props.time} onChange={props.handleTimeChange}>
+                <label for="time">Select a start time:</label>
+                <select name="time" selected={props.time} onChange={props.handleFormChange}>
                     { Array(24).fill(0).map((el, idx) =>
                         <option value={idx}>{('0' + idx).slice(-2) + ':00'}</option>)
                     }
@@ -31,7 +32,7 @@ const JobCreate = props => (
             </div>
             <div>
                 <label for="duration">Select a duration:</label>
-                <select name="duration" selected={props.duration} onChange={props.handleDurChange}>
+                <select name="duration" selected={props.duration} onChange={props.handleFormChange}>
                     { Array(12).fill(0).map((el, idx) =>
                         <option value={idx + 1}>{`${idx + 1} hours`}</option>)
                     }
@@ -41,11 +42,7 @@ const JobCreate = props => (
                 Request booking
             </button>
         </form>
-        <div>
-            { props.jobWaiting ? 'Please wait a moment...' : null }
-            { props.jobSuccess ? 'Job saved successfully!' : null }
-            { props.jobFailure ? 'Error! Please try again.' : null }
-        </div>
+        <StatusMessage jobStatus={props.jobStatus}/>
     </div>
 );
 

@@ -10,51 +10,44 @@ class JobCreate extends React.Component {
         this.state = {
             customer: '',
             date: moment(),
-            time: '10:00',
-            duration: '5',
-            jobWaiting: false,
-            jobSuccess: false,
-            jobFailure: false
+            time: '10',
+            duration: '1',
+            jobStatus: null
         };
-        this.handleCustomerChange = this.handleCustomerChange.bind(this);
+        this.handleFormChange = this.handleFormChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleTimeChange = this.handleTimeChange.bind(this);
-        this.handleDurChange = this.handleDurChange.bind(this);
         this.clearJobStatus = this.clearJobStatus.bind(this);
         this.createJob = this.createJob.bind(this);
     }
-    handleCustomerChange(e) {
-        this.setState({ customer: e.target.value });        
+    handleFormChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
     }
-    handleDateChange(date) {
-        this.setState({ date });
-    }
-    handleTimeChange(e) {
-        this.setState({ time: e.target.value });
-    }
-    handleDurChange(e) {
-        this.setState({ duration: e.target.value });
+    handleDateChange(date) { 
+        this.setState({ date }); 
     }
     clearJobStatus() {
-        this.setState({
-            jobWaiting: false,
-            jobSuccess: false,
-            jobFailure: false
-        });
+        this.setState({ jobStatus: null });
     }
     createJob(e) {
-        this.setState({ jobWaiting: true });
-        const start = moment(this.state.date).hour(this.state.time.slice(0, 2));
+        const start = moment(this.state.date).set({hour:this.state.time, minute:0, second:0, millisecond:0});
         const stop = moment(start).add(this.state.duration, 'hours');
+        if (!this.state.date || !this.state.time || !this.state.duration || !this.state.customer) {
+            this.setState({ jobStatus: 'All form fields must be completed.' });
+            return setTimeout(this.clearJobStatus, 2000);
+        }
+        this.setState({ jobStatus: 'waiting' });
         const config = {
-            customer: this.state.customer || 'Anonymous customer',
-            date: this.state.date.utc().format(),
-            start: start.utc().format(),
-            stop: stop.utc().format()
+            customer: this.state.customer,
+            date: moment(this.state.date).set({hour:0, minute:0, second:0, millisecond:0}).format(),
+            start: start.format(),
+            stop: stop.format()
         };
         axios.post('/jobs', config)
-            .then(res => this.setState({ jobWaiting: false, jobSuccess: true }))
-            .catch(err => this.setState({ jobWaiting: false, jobFailure: true }))
+            .then(res => {
+                if (res.data.error) { throw res.data.error; }
+                this.setState({ jobStatus: 'success' });
+            })
+            .catch(err => this.setState({ jobStatus: err }))
             .finally(() => setTimeout(this.clearJobStatus, 2000));
     }
     render() { return (
@@ -63,16 +56,13 @@ class JobCreate extends React.Component {
             date={this.state.date}
             time={this.state.time}
             duration={this.state.duration}
-            jobWaiting={this.state.jobWaiting}
-            jobSuccess={this.state.jobSuccess}
-            handleCustomerChange={this.handleCustomerChange}
+            jobStatus={this.state.jobStatus}
+            handleFormChange={this.handleFormChange}
             handleDateChange={this.handleDateChange}
-            handleTimeChange={this.handleTimeChange}
-            handleDurChange={this.handleDurChange}
             clearJobStatus={this.clearJobStatus}
             createJob={this.createJob}
-        /> );
-    }
+        />
+    )}
 }
 
 export { JobCreate };

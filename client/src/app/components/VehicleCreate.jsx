@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { StatusMessage } from './StatusMessage';
 import axios from 'axios';
 
 const VehicleCreate = props => (
@@ -9,13 +10,13 @@ const VehicleCreate = props => (
             <div>
                 <label for="name">Provide a name:</label>
                 <input name="name" value={props.name} 
-                    placeholder="Anonymous vehicle"
-                    onChange={props.handleNameChange}>
+                    placeholder="Name"
+                    onChange={props.handleFormChange}>
                 </input>
             </div>
             <div>
                 <label for="start">Select its daily starting time:</label>
-                <select name="start" value={props.start} onChange={props.handleStartChange}>
+                <select name="start" value={props.start} onChange={props.handleFormChange}>
                     { Array(24).fill(0).map((el, idx) => {
                             const start = ('0' + idx).slice(-2) + ':00';
                             return <option value={start}>{start}</option>;
@@ -25,7 +26,7 @@ const VehicleCreate = props => (
             </div>
             <div>
                 <label for="stop">Select its daily stopping time:</label>
-                <select name="stop" value={props.stop} onChange={props.handleStopChange}>
+                <select name="stop" value={props.stop} onChange={props.handleFormChange}>
                     { Array(24).fill(0).map((el, idx) => {
                             const stop = ('0' + idx).slice(-2) + ':00';
                             return <option value={stop}>{stop}</option>;
@@ -37,12 +38,8 @@ const VehicleCreate = props => (
                 Save vehicle
             </button>
         </form>
-        <div>
-            { props.vehicleWaiting ? 'Please wait a moment...' : null }
-            { props.vehicleSuccess ? 'Vehicle saved successfully!' : null }
-            { props.vehicleFailure ? 'Error! Please try again.' : null }
-        </div>
-    </div>
+        <StatusMessage vehicleStatus={props.vehicleStatus}/>
+    </div> 
 );
 
 export { VehicleCreate };

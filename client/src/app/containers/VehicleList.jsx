@@ -6,28 +6,29 @@ import { VehicleList as VehicleComponent } from '../components/VehicleList';
 class VehicleList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            rows: []
-        };
+        this.state = { jobsByVehicle: {} };
     }
     componentDidMount() {
         axios.get('/vehicles')
             .then(result => {
-                this.setState({ rows: result.data.rows });
+                const jbv = {};
+                result.data.rows.forEach(row => {
+                    jbv[row.id_vehicle] = jbv[row.id_vehicle] || { jobs: [] };
+                    jbv[row.id_vehicle].name = row.name;
+                    if (row.customer) {
+                        jbv[row.id_vehicle].jobs.push({
+                            customer: row.customer,
+                            start: row.start,
+                            stop: row.stop
+                        });
+                    }
+                });
+                this.setState({ jobsByVehicle: jbv });
             })
             .catch(err => console.log(err));
     }
-    render() { 
-        const jobsByVehicle = {};
-        this.state.rows.forEach(row => {
-            jobsByVehicle[row.id] = jobsByVehicle[row.id] || [];
-            jobsByVehicle[row.id].push({
-                name: row.name,
-                start: row.start,
-                stop: row.stop
-            });
-        })
-        return <VehicleComponent jobsByVehicle={jobsByVehicle}/>;
+    render() {
+        return <VehicleComponent jobsByVehicle={this.state.jobsByVehicle}/>;
     }
 }
 

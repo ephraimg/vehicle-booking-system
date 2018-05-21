@@ -11,58 +11,44 @@ class VehicleCreate extends React.Component {
             name: '',
             start: '08:00',
             stop: '17:00',
-            vehicleWaiting: false,
-            vehicleSuccess: false,
-            vehicleFailure: false
+            vehicleStatus: null
         };
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleStartChange = this.handleStartChange.bind(this);
-        this.handleStopChange = this.handleStopChange.bind(this);
+        this.handleFormChange = this.handleFormChange.bind(this);
         this.clearVehicleStatus = this.clearVehicleStatus.bind(this);
         this.createVehicle = this.createVehicle.bind(this);
     }
-    handleNameChange(e) {
-        this.setState({ name: e.target.value });
-    }
-    handleStartChange(e) {
-        this.setState({ start: e.target.value });
-    }
-    handleStopChange(e) {
-        this.setState({ stop: e.target.value });
+    handleFormChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
     }
     clearVehicleStatus() {
-        this.setState({
-            vehicleWaiting: false,
-            vehicleSuccess: false,
-            vehicleFailure: false
-        });
+        this.setState({ vehicleStatus: null });
     }
     createVehicle(e) {
-        this.setState({ vehicleWaiting: true });
+        if (!this.state.name || !this.state.start || !this.state.stop) {
+            this.setState({ vehicleStatus: 'All form fields must be completed.' });
+            return setTimeout(this.clearVehicleStatus, 2000);
+        }
+        this.setState({ vehicleStatus: 'waiting' });
         const config = {
-            name: this.state.name || 'Anonymous vehicle',
+            name: this.state.name,
             start: this.state.start,
             stop: this.state.stop
         };
         axios.post('/vehicles', config)
-            .then(res => this.setState({ vehicleWaiting: false, vehicleSuccess: true }))
-            .catch(err => this.setState({ vehicleWaiting: false, vehicleFailure: true }))
+            .then(res => this.setState({ vehicleStatus: 'success' }))
+            .catch(err => this.setState({ vehicleStatus: err }))
             .finally(() => setTimeout(this.clearVehicleStatus, 2000));
     }
     render() { return (
         <VehicleComponent 
             start={this.state.start}
             stop={this.state.stop}
-            vehicleWaiting={this.state.vehicleWaiting}
-            vehicleSuccess={this.state.vehicleSuccess}
-            vehicleFailure={this.state.vehicleFailure}
-            handleNameChange={this.handleNameChange}
-            handleStartChange={this.handleStartChange}
-            handleStopChange={this.handleStopChange}
+            vehicleStatus={this.state.vehicleStatus}
+            handleFormChange={this.handleFormChange}
             clearVehicleStatus={this.clearVehicleStatus}
             createVehicle={this.createVehicle}
         />
-    )};
+    )}
 }
 
 export { VehicleCreate };
