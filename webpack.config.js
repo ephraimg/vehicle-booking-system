@@ -22,14 +22,15 @@ const webpackRules = [
     use: ['style-loader','css-loader'] }
 ];
 const config = {
-  mode: 'development',
+  // mode: 'development',
+  mode: 'production',
   watch: true,
   entry: path.join(paths.APP, 'index.jsx'),
   output: { path: paths.DIST, filename: 'bundle.js' },
   plugins: [ htmlPlugin ],
   module: { rules: webpackRules },
   resolve: {  extensions: ['.js', '.jsx'] },
-  devtool: 'inline-source-map'
+  // devtool: 'inline-source-map'
 };
 
 // Export our config object for webpack to use
