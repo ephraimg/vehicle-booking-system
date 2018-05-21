@@ -25,3 +25,7 @@ The application uses Postgres. To get set up:
 - Create a Postgres database named 'vehicle_booking'
 - Create tables: psql vehicle_booking < db/schema.sql
 - Set environment variables for connections, as in: postgresql://dbuser:secretpassword@database.server.com:3211/mydb
+
+### Heroku
+
+Heroku is hosting the application at https://oncue-booking-system.herokuapp.com. To connect to the Heroku Postgres database from the command line, use: heroku pg:psql -a oncue-booking-system
